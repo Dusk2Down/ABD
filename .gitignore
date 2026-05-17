@@ -1,0 +1,26 @@
+# Docker volumes 
+postgres/
+clickhouse/
+
+# Spark временные файлы
+spark_cache/
+*.log
+*.tmp
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/

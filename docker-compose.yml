@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: bigdata_lab2_postgres
+    environment:
+      POSTGRES_DB: bigdata_lab2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./scripts_sql:/docker-entrypoint-initdb.d
+      - ./data:/data
+    networks:
+      - abd-net
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: bigdata_lab2_clickhouse
+    environment:
+      CLICKHOUSE_DB: bigdata_lab2
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: default
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: 1
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    networks:
+      - abd-net
+
+  spark:
+    image: jupyter/pyspark-notebook:spark-3.4.0
+    container_name: bigdata_lab2_spark
+    user: root
+    ports:
+      - "4040:4040"
+    volumes:
+      - ./spark:/home/jovyan/spark
+      - ./jars:/home/jovyan/jars
+      - ./data:/data
+    environment:
+      - GRANT_SUDO=yes
+    networks:
+      - abd-net
+    depends_on:
+      - postgres
+      - clickhouse
+
+networks:
+  abd-net:
+    driver: bridge
