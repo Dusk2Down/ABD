@@ -23,7 +23,7 @@ UNION ALL
 SELECT 'product_quality_report', count(*) FROM bigdata_lab2.product_quality_report;
 "
 
-# Топ-10 продуктов по выручке
+### Топ-10 продуктов по выручке
 docker exec -it bigdata_lab2_clickhouse clickhouse-client --query "
 SELECT product_name, total_revenue, total_quantity_sold 
 FROM bigdata_lab2.product_sales_report 
